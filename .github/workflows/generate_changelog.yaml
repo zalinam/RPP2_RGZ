@@ -1,0 +1,48 @@
+name: Generate Changelog  
+
+#Событие, при котором будет запускаться workflow
+on:
+  # Событие push в репозиторий  
+  push:
+  # Событие создания релиза
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs: 
+  security_check:
+    # Запуск задачи на последней версии Ubuntu  
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Check out the repository # Клонирование репозитория 
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Выкачивание всей истории коммитов
+       
+      - name: Install Bandit
+        run: |
+          python -m pip install --upgrade pip
+          pip install bandit
+
+      - name: Run bandit
+        run: bandit -r my_app 
+  
+      - name: Download and Install git-cliff
+        run: |  
+          curl -L "https://github.com/orhun/git-cliff/releases/download/v2.2.1/git-cliff-2.2.1-x86_64-unknown-linux-gnu.tar.gz" -o git-cliff.tar.gz  # Скачивание git-cliff
+          tar -xzf git-cliff.tar.gz  # Распаковка скачанного архива
+          mv git-cliff-2.2.1/git-cliff /usr/local/bin/  # Перемещение исполняемого файла git-cliff в директорию /usr/local/bin
+        
+      # Шаг для генерации файла CHANGELOG.md
+      - name: Generate Changelog
+        run: git-cliff --config cliff.toml --output CHANGELOG.md # Запуск git-cliff с указанием конфигурационного файла и выходного файла
+     
+    # Шаг для коммита изменений
+      - name: Commit Changelog
+      # Команды для выполнения  
+        run: |  
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add CHANGELOG.md
+          git commit -m "Обновление CHANGELOG.md"
+          git push https://github.com/${{ github.repository }}.git HEAD:main
