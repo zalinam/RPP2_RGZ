@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 🚀 Features
+
+- *(app)* HTML-страницы приложения и стили к ним
+
 ## [1] - 2024-12-21
 
 ### 🚀 Features
