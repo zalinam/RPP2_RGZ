@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Страница входа</title>
+</head>
+<body>
+    <h1>Авторизация</h1>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+        <input type="text" id="name" name="name" required placeholder="Name">
+        <input type="password" id="password" name="password" required placeholder="Password">
+        <button type="submit">Вход</button>
+    </form>
+    <a href="{{ url_for('signup') }}">Зарегистрироваться</a>
+</body>
+</html>

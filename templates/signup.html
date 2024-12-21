@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Страница регистрации</title>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+        <input type="text" id="name" name="name" required placeholder="Name">
+        <input type="password" id="password" name="password" required placeholder="Password"><br>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+</body>
+</html>

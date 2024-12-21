@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Ваши подписки</title>
+</head>
+<body>
+    <h1>Ваши подписки</h1>
+    
+    <form method="POST" action="{{ url_for('create_subscription') }}">
+        <input type="text" name="name" placeholder="Наименование" required>
+        <input type="number" name="amount" step="0.01" placeholder="Сумма списания" required>
+        <select name="frequency" required>
+            <option value="monthly">Ежемесячно</option>
+            <option value="yearly">Ежегодно</option>
+        </select>
+        <input type="date" name="start_date" required>
+        <button type="submit">Добавить подписку</button>
+    </form>
+    
+    <ul>
+            {% for subscription in subscriptions %}
+                <li>
+                    <strong>{{ subscription.name }}</strong> - {{ subscription.amount }} р. 
+                    ({{ subscription.frequency }}) - Начало: {{ subscription.start_date }}
+                    <form action="{{ url_for('delete_subscription', sub_id=subscription.id) }}" method="post" style="display:inline;">
+                        <button type="submit">Удалить</button>
+                    </form>
+                    <a href="{{ url_for('edit_subscription', sub_id=subscription.id) }}">Редактировать</a>
+                </li>
+            {% else %}
+                <li>У вас нет активных подписок.</li>
+            {% endfor %}
+        
+    </ul>
+    <a href="{{ url_for('logout') }}">Выйти</a>
+</body>
+</html>
