@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 🚀 Features
+
+- *(app)* Flask-приложение
+
 ## [2] - 2024-12-21
 
 ### 🚀 Features
